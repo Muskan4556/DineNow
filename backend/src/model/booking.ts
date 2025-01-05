@@ -11,7 +11,7 @@ const userSchema = {
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   },
   contactNo: {
-    type: Number,
+    type: String,
     required: true,
     match: /^\d{10}$/,
   },
@@ -21,7 +21,7 @@ const bookingSchema = new mongoose.Schema(
   {
     restaurant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "RestaurantData",
+      ref: "RestaurantInfos",
       required: true,
     },
     datetime: {
@@ -40,3 +40,5 @@ const bookingSchema = new mongoose.Schema(
 );
 
 const Booking = mongoose.model("Booking", bookingSchema);
+
+export default Booking;

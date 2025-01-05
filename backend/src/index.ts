@@ -3,6 +3,10 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import restaurantRoute from "./routes/restaurants";
+import bookingRoute from "./routes/booking";
+import RestaurantInfos from "./model/restaurants";
+
+mongoose.set("debug", true); // Enable Mongoose query logging
 
 mongoose
   .connect(process.env.MONGODB_CONNECTIONS_STRING as string)
@@ -13,6 +17,7 @@ mongoose
     });
   })
   .catch((err) => console.log("MongoDB error: ", err));
+
 
 const app = express();
 
@@ -26,3 +31,4 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/restaurants", restaurantRoute);
+app.use("/api/v1/bookings", bookingRoute);

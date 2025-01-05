@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import Restaurant from "../model/restaurants";
+import RestaurantInfos from "../model/restaurants";
 
 export const getAllRestaurants = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const restaurants = await Restaurant.find({});
+    const restaurants = await RestaurantInfos.find({});
     if (restaurants.length === 0) {
       return res.status(404).json({
         message: "No restaurants found",
@@ -27,7 +27,7 @@ export const getRestaurantInfo = async (
 ): Promise<any> => {
   try {
     const resId = req.params.restaurantId;
-    const restaurant = await Restaurant.findOne({ _id: resId });
+    const restaurant = await RestaurantInfos.findOne({ _id: resId });
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
