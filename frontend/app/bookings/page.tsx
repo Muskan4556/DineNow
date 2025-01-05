@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useGetBookings } from "../client-api/booking";
 import { BookingType } from "../type";
 import BookingSummary from "./BookingSummary";
+import Loader from "@/components/Loader";
 
 const Booking = () => {
-  const { bookings, fetchBookings, isLoading, error } = useGetBookings();
+  const { bookings, fetchBookings, isLoading } = useGetBookings();
   const [bookingInfo, setBookingInfo] = useState<BookingType[]>([]);
 
   useEffect(() => {
     fetchBookings();
   }, [fetchBookings]);
 
-  // This effect will update the booking info when the 'bookings' data changes
   useEffect(() => {
     if (bookings) {
       setBookingInfo(bookings);
@@ -26,8 +26,7 @@ const Booking = () => {
     );
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (isLoading) return <Loader />;
 
   return (
     <div>

@@ -6,6 +6,7 @@ import Hero from "./Hero";
 import RestaurantCard from "./RestaurantCard";
 import { Restaurant } from "@/app/type";
 import { useAllResturants } from "@/app/client-api/restaurant";
+import Loader from "./Loader";
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +18,6 @@ export default function HomePage() {
       setRestaurantData(restaurants);
     }
   }, [restaurants]);
-
 
   const filteredRestaurants = restaurantData.filter((restaurant) => {
     const matchesName = restaurant.name
@@ -59,7 +59,7 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No restaurants found.</p>
+          <Loader />
         )}
       </div>
     </div>

@@ -65,6 +65,9 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
     "20:30",
     "21:00",
     "21:30",
+    "22:00",
+    "22:30",
+    "23:00",
   ];
 
   const isFormValid =
@@ -111,7 +114,7 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
     }
 
     createBooking(formData);
-    if(!isLoading){
+    if (!isLoading) {
       setIsOpen(false);
     }
   };
@@ -139,21 +142,18 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
               Select Date
             </label>
             <div className="grid md:grid-cols-7 grid-cols-3 gap-2">
-              {daysOfWeek.map((date, i) => {
+            {daysOfWeek.map((date, i) => {
                 const day = format(date, "d");
                 const dayOfWeek = format(date, "EEE");
                 const formattedDate = format(date, "yyyy-MM-dd");
+
                 return (
                   <button
                     key={i}
                     onClick={() => setSelectedDate(formattedDate)}
-                    className={`p-4 rounded-lg border text-center hover:border-blue-500 transition-colors
-                            ${
-                              selectedDate === formattedDate
-                                ? "bg-blue-500 text-white border-blue-500"
-                                : "bg-white"
-                            }
-                            ${isToday(date) ? "bg-blue-500" : ""}`}
+                    className={`p-4 rounded-lg border text-center hover:bg-blue-500 hover:text-white transition-colors
+                    ${selectedDate === formattedDate ? "bg-blue-500 text-white border-blue-500" : "bg-white"}
+                    ${isToday(date) ? "bg-blue-300 text-white" : ""}`}
                   >
                     <div className="text-sm">{dayOfWeek}</div>
                     <div className="font-bold">{day}</div>
