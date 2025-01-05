@@ -10,23 +10,28 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { z } from "zod";
-import { Restaurant } from "@/app/type";
+import { BookingType, Restaurant } from "@/app/type";
+import { useCreateBooking } from "@/app/client-api/booking";
 
 interface ReservationDialogProps {
   restaurant: Restaurant;
 }
 
 const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
+  const { createBooking, isLoading } = useCreateBooking();
+
   const formSchema = z.object({
-    fullName: z.string().min(1, "Full Name is required"),
-    email: z.string().email("Invalid email address"),
-    phone: z
-      .string()
-      .regex(/^\d{10}$/, "Phone number must be 10 digits")
-      .optional(),
-    selectedDate: z.string().min(1, "Date is required"),
-    selectedTime: z.string().min(1, "Time is required"),
-    guests: z.number().min(1, "At least 1 guest is required"),
+    restaurantId: z.string().min(1, "Restaurant ID is required"),
+    datetime: z.string().min(1, "Date and Time are required"),
+    guest: z.number().min(1, "Guests are required"),
+    user: z.object({
+      name: z.string().min(1, "Full name is required"),
+      email: z
+        .string()
+        .email("Invalid email address")
+        .min(1, "Email is required"),
+      contactNo: z.string().min(1, "Phone number is required").max(10),
+    }),
   });
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -36,8 +41,8 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isOpen, setIsOpen] = useState(false);
 
   const currentDate = useMemo(() => new Date(), []);
 
@@ -66,19 +71,24 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
     selectedDate && selectedTime && guests && fullName && email && phone;
 
   const handleConfirmReservation = () => {
-    const formData = {
-      fullName,
-      email,
-      phone,
-      selectedDate: selectedDate || "",
-      selectedTime,
-      guests,
+    const formData: BookingType = {
+      restaurantId: restaurant._id,
+      datetime: `${selectedDate}T${selectedTime}`,
+      guest: guests,
+      user: {
+        name: fullName,
+        email: email,
+        contactNo: phone,
+      },
     };
+
+    console.log("Form Data for Validation:", formData);
 
     const validation = formSchema.safeParse(formData);
 
     if (!validation.success) {
       const fieldErrors = validation.error.flatten().fieldErrors;
+      console.log("Validation Errors:", fieldErrors);
       const formattedErrors: Record<string, string> = {};
 
       for (const [key, value] of Object.entries(fieldErrors)) {
@@ -99,9 +109,15 @@ const ReservationDialog = ({ restaurant }: ReservationDialogProps) => {
     } else {
       setErrors({});
     }
+
+    createBooking(formData);
+    if(!isLoading){
+      setIsOpen(false);
+    }
   };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className=" bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors w-full">
           Book Now
