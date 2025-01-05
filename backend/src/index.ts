@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import mongoose from "mongoose";;
+import mongoose from "mongoose";
 import "dotenv/config";
+import restaurantRoute from "./routes/restaurants";
 
 mongoose
   .connect(process.env.MONGODB_CONNECTIONS_STRING as string)
@@ -23,3 +24,5 @@ app.use(cors());
 app.get("/health", (req: Request, res: Response) => {
   res.send({ message: "Health Ok" });
 });
+
+app.use("/api/v1/restaurants", restaurantRoute);
