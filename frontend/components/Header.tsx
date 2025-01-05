@@ -8,7 +8,9 @@ const Header = () => {
           Dine Now
         </Link>
         <Link href="/bookings">
-          <div className="px-6 py-2 cursor-pointer">My Booking</div>
+          <div className="px-6 py-2 cursor-pointer hover:underline font-bold">
+            My Bookings
+          </div>
         </Link>
       </div>
     </header>

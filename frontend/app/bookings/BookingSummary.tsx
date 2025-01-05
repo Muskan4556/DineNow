@@ -27,48 +27,46 @@ const BookingSummary = ({
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <Card className="shadow-md border border-gray-200 rounded-lg">
-        <CardHeader className="flex justify-between items-center">
-          <div className="text-center text-xl font-semibold text-green-600 my-4">
-            <p>Your booking has been confirmed!</p>
-          </div>
+      <Card className="shadow-xl border border-gray-200 rounded-lg overflow-hidden bg-white">
+        <CardHeader className="flex justify-between items-center bg-blue-600 text-white p-4 rounded-t-lg">
           <div>
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="text-2xl font-bold text-gray-50">
               {restaurant?.name}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-200">
               {restaurant?.locality}, {restaurant?.city}
             </p>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-2 mb-4 flex justify-between">
-            <div>
-              <h3 className="font-bold text-lg text-gray-700">
+        <CardContent className="px-6 py-4">
+          <div className="flex justify-between items-start mb-6">
+            <div className="space-y-3">
+              <h3 className="font-semibold text-lg text-gray-800">
                 Booking Details
               </h3>
               <p>
-                <strong>Name:</strong> {user.name}
+                <span className="font-semibold">Name: </span>
+                {user.name}
               </p>
               <p>
-                <strong>Email:</strong> {user.email}
+                <span className="font-semibold">Email:</span> {user.email}
               </p>
               <p>
-                <strong>Contact No:</strong> {user.contactNo}
+                <span className="font-semibold">Contact No:</span>{" "}
+                {user.contactNo}
               </p>
             </div>
-            {/* Delete Button */}
             <Button
+              variant={"outline"}
               onClick={handleDelete}
-              className="bg-blue-600 text-white hover:bg-blue-500 cursor-pointer transition duration-200 ease-in-out mr-12"
+              className=" hover:bg-red-700 hover:text-white cursor-pointer transition duration-200 ease-in-out"
             >
               Delete
             </Button>
           </div>
 
-          {/* Reservation Info */}
-          <div className="space-y-2 mb-4">
-            <h3 className="font-medium text-lg text-gray-700">
+          <div className="space-y-3 mb-6">
+            <h3 className="font-semibold text-lg text-gray-800">
               Reservation Info
             </h3>
             <p>
@@ -80,17 +78,18 @@ const BookingSummary = ({
             </p>
           </div>
 
-          {/* Restaurant Details */}
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center space-x-6 mb-6">
             <Image
               src="https://img.freepik.com/free-photo/grilled-beef-pork-with-fresh-guacamole-generated-by-ai_188544-38177.jpg"
               alt={restaurant?.name || "restaurant"}
               width={400}
               height={200}
-              className="w-24 h-24 object-cover rounded-full"
+              className="w-24 h-24 object-cover rounded-lg shadow-lg"
             />
-            <div className="space-y-1">
-              <p className="font-medium text-gray-800">{restaurant?.name}</p>
+            <div className="space-y-2">
+              <p className="font-semibold text-xl text-gray-800">
+                {restaurant?.name}
+              </p>
               <p className="text-sm text-gray-500">
                 {restaurant?.cuisines.join(", ")}
               </p>

@@ -28,10 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#e3eefe]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#e3eefe] flex flex-col min-h-screen`}
       >
         <Header />
-        {children}
+        <main className="flex-grow">{children}</main>
         <Toaster
           visibleToasts={1}
           position="bottom-right"
