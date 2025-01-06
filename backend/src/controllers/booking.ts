@@ -9,7 +9,6 @@ export const createBooking = async (
 
   try {
     const existingBooking = await Booking.findOne({
-      restaurant: restaurantId,
       datetime: datetime,
     });
 
